@@ -1,5 +1,4 @@
 import './bootstrap';
-import router from './router';
 import {createApp} from 'vue';
 
 import App from './App.vue';
@@ -15,4 +14,4 @@ const vuetify = createVuetify({
     directives
 });
 
-createApp(App).use(vuetify).use(router).mount('#app');
+createApp(App).use(vuetify).mount('#app');
