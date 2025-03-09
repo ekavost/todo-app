@@ -6,9 +6,9 @@
         </v-app-bar>
 
         <v-main>
-            <v-btn class="bg-pink py-10" block rounded="0"
-                   @click="showTaskForm = !showTaskForm">
-                   Crear nueva tarea
+            <v-btn class="bg-pink py-10" block rounded="0"Crear nueva tarea>
+                Crear nueva tarea
+                    <CreateTaskForm></CreateTaskForm>
             </v-btn>
 
             <TaskList></TaskList>
@@ -29,17 +29,12 @@
 </template>
 
 <script>
-import TaskForm from './components/TaskForm.vue';
+import CreateTaskForm from './components/CreateTaskForm.vue';
 import TaskList from './components/TaskList.vue';
 export default{
     components:{
-        TaskForm,
+        CreateTaskForm,
         TaskList,
-    },
-    data(){
-        return{
-            showTaskForm: false,
-        }
     },
 }
 </script>

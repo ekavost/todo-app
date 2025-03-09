@@ -15,19 +15,22 @@
 
                 <template v-slot:append>
                     <v-btn-group>
-                        <!-- Mark as Completed-->
+    <!-- Mark as Completed-->
                         <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
                                @mouseover="task.markBtnHovered = true"
                                @mouseleave="task.markBtnHovered = false">
                             <v-icon :class="{'text-success': task.markBtnHovered}">mdi-check-bold</v-icon>
                         </v-btn>
 
-                        <!-- Edit Task-->
-                        <v-btn @click="removeTask(task)" class="bg-transparent">
+    <!-- Edit Task-->
+                        <v-btn class="bg-transparent">
                             <v-icon>mdi-pencil-outline</v-icon>
+                            <v-dialog activator="parent">
+                                <EditTaskForm></EditTaskForm>
+                            </v-dialog>
                         </v-btn>
 
-                        <!-- Remove Task-->
+    <!-- Remove Task-->
                         <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
                                @mouseleave="task.removeBtnHovered = false">
                             <v-icon :class="{'text-error': task.removeBtnHovered}">mdi-trash-can-outline</v-icon>
@@ -47,20 +50,20 @@
             :class="{'bg-grey-lighten-3': task.hovered}">
             <v-list-item
                 :title='task.title'>
-<!-- Completed Icon-->
+    <!-- Completed Icon-->
                 <template v-slot:prepend>
                     <v-icon>mdi-check-bold</v-icon>
                 </template>
 
                 <template v-slot:append>
                     <v-btn-group>
-<!-- Mark as Incomplete-->
+    <!-- Mark as Incomplete-->
                         <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
                                @mouseover="task.undoBtnHovered = true"
                                @mouseleave="task.undoBtnHovered = false">
                             <v-icon :class="{'text-success': task.undoBtnHovered}">mdi-undo</v-icon>
                         </v-btn>
-<!-- Remove Task-->
+    <!-- Remove Task-->
                         <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
                                @mouseleave="task.removeBtnHovered = false">
                             <v-icon :class="{'text-error': task.removeBtnHovered}">mdi-trash-can-outline</v-icon>
@@ -74,7 +77,13 @@
     </v-sheet>
 </template>
 <script>
+import CreateTaskForm from './CreateTaskForm.vue';
+import EditTaskForm from "./EditTaskForm.vue";
 export default {
+    components: {
+        EditTaskForm,
+        TaskForm: CreateTaskForm,
+    },
     data() {
         return {
             tasks: [],
