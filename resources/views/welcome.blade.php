@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="author" content="<Ekaterina Vostrikova>">
         <title>Gestor de tareas</title>
+        <link href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css" rel="stylesheet">
 
         @vite(['resources/js/app.js'])
     </head>
