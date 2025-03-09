@@ -10,7 +10,9 @@
                    @click="showTaskForm = !showTaskForm">
                    Crear nueva tarea
             </v-btn>
+
             <TaskList></TaskList>
+
             <TaskForm v-if="showTaskForm"></TaskForm>
         </v-main>
 

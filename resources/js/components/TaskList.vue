@@ -6,7 +6,6 @@
     </v-data-table>
 </template>
 <script>
-import {VDataTable} from "vuetify/components";
 export default {
     data(){
         return{
@@ -22,6 +21,5 @@ export default {
                 console.error('Error al obtener tareas:', error);
             });
     },
-
 }
 </script>
