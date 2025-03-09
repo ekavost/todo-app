@@ -81,16 +81,19 @@ export default {
     },
 
     mounted() {
-        axios.get('/api/tasks')
-            .then(response => {
-                this.tasks = response.data;
-            })
-            .catch(error => {
-                console.error('Error al obtener tareas:', error);
-            });
+        this.upload();
     },
 
     methods: {
+        upload(){
+            axios.get('/api/tasks')
+                .then(response => {
+                    this.tasks = response.data;
+                })
+                .catch(error => {
+                    console.error('Error al obtener tareas:', error);
+                });
+        },
         completeTask(task) {
             task.completed = true;
             axios.patch(`/api/tasks/${task.id}`, task)
@@ -106,6 +109,7 @@ export default {
             axios.delete(`/api/tasks/${task.id}`)
                 .then(response => {
                     console.log(response.data);
+
                 })
         .catch(error => {
                     console.error('Error al eliminar tarea:', error);
