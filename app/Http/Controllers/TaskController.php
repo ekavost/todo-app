@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateTaskRequest;
-use App\Http\Requests\UpdateTaskRequest;
+use App\Http\Requests\TaskRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use App\Http\Requests\createRequest;
 
 class TaskController extends Controller
 {
-    public function create(CreateTaskRequest $request) {
+    public function create(TaskRequest $request) {
         $task = $request->validated();
         $title = Task::create($task);
         return $title;
@@ -20,7 +18,7 @@ class TaskController extends Controller
         $task = Task::all();
         return $task;
     }
-    public function update(UpdateTaskRequest $request, $id){
+    public function update(TaskRequest $request, $id){
         $task = Task::findOrFail($id);
         $task->update($request->all());
         return $task;
