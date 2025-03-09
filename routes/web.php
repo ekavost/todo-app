@@ -7,4 +7,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::post('/', [TaskController::class, 'create']);
-Route::get('api/todos', [TaskController::class, 'show']);
+Route::get('api/tasks', [TaskController::class, 'show']);
