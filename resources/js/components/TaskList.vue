@@ -2,7 +2,7 @@
     <h2>Tareas actuales</h2>
     <v-list>
 
-<!--Incompleted Tasks List-->
+<!--Incomplete Tasks List-->
         <v-list-subheader>Tareas pendientes</v-list-subheader>
         <v-list-item
             v-for="task in incompletedTasks" :key="task.id"
@@ -15,7 +15,7 @@
                 <template v-slot:append>
                     <v-btn-group>
                         <!-- Mark as Completed-->
-                        <v-btn @click="completeTask(task)" class="bg-transparent"
+                        <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
                                @mouseover="task.markBtnHovered = true"
                                @mouseleave="task.markBtnHovered = false">
                             <v-icon :class="{'text-success': task.markBtnHovered}">mdi-check-bold</v-icon>
@@ -50,9 +50,16 @@
                 <template v-slot:prepend>
                     <v-icon>mdi-check-bold</v-icon>
                 </template>
-<!-- Remove Task-->
+
                 <template v-slot:append>
                     <v-btn-group>
+<!-- Mark as Incomplete-->
+                        <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
+                               @mouseover="task.undoBtnHovered = true"
+                               @mouseleave="task.undoBtnHovered = false">
+                            <v-icon :class="{'text-success': task.undoBtnHovered}">mdi-undo</v-icon>
+                        </v-btn>
+<!-- Remove Task-->
                         <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
                                @mouseleave="task.removeBtnHovered = false">
                             <v-icon :class="{'text-error': task.removeBtnHovered}">mdi-trash-can-outline</v-icon>
@@ -94,8 +101,8 @@ export default {
                     console.error('Error al obtener tareas:', error);
                 });
         },
-        completeTask(task) {
-            task.completed = true;
+        toggleCompleteTask(task) {
+            task.completed = !task.completed;
             axios.patch(`/api/tasks/${task.id}`, task)
                 .then(response => {
                     console.log(response.data);
@@ -114,6 +121,7 @@ export default {
         .catch(error => {
                     console.error('Error al eliminar tarea:', error);
                 });
+            this.upload();
         }
     }
 }
