@@ -11,42 +11,54 @@
             :class="{'bg-grey-lighten-4': task.hovered}">
             <v-list-item
                 :title='task.title'>
-<!-- Mark as Completed-->
-                <template v-slot:prepend>
-                    <v-icon
-                        @click="completeTask( task)"
-                        :class="{'text-success': task.hovered}">
-                        mdi-check-bold</v-icon>
-                </template>
-<!-- Remove Task-->
+
                 <template v-slot:append>
-                   <v-icon
-                       @click="removeTask(task)"
-                       :class="{'text-error': task.hovered}">
-                       mdi-trash-can-outline
-                   </v-icon>
+                    <v-btn-group>
+                        <!-- Mark as Completed-->
+                        <v-btn @click="completeTask(task)" class="bg-transparent"
+                               @mouseover="task.markBtnHovered = true"
+                               @mouseleave="task.markBtnHovered = false">
+                            <v-icon :class="{'text-success': task.markBtnHovered}">mdi-check-bold</v-icon>
+                        </v-btn>
+
+                        <!-- Edit Task-->
+                        <v-btn @click="removeTask(task)" class="bg-transparent">
+                            <v-icon>mdi-pencil-outline</v-icon>
+                        </v-btn>
+
+                        <!-- Remove Task-->
+                        <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
+                               @mouseleave="task.removeBtnHovered = false">
+                            <v-icon :class="{'text-error': task.removeBtnHovered}">mdi-trash-can-outline</v-icon>
+                        </v-btn>
+                    </v-btn-group>
                 </template>
-<!-- Edit Task-->
             </v-list-item>
         </v-list-item>
 
-<!--Incompleted Tasks List-->
+<!--Completed Tasks List-->
         <v-list-subheader>Tareas completas</v-list-subheader>
         <v-list-item
-            class="bg-grey-lighten-4 text-grey-darken-2"
+            class="text-disabled"
             v-for="task in completedTasks" :key="task.id"
             @mouseover="task.hovered = true"
             @mouseleave="task.hovered = false"
             :class="{'bg-grey-lighten-3': task.hovered}">
             <v-list-item
                 :title='task.title'>
+<!-- Completed Icon-->
+                <template v-slot:prepend>
+                    <v-icon>mdi-check-bold</v-icon>
+                </template>
 <!-- Remove Task-->
                 <template v-slot:append>
-                    <v-icon
-                        @click="removeTask(task)"
-                        :class="{'text-error': task.hovered}">
-                        mdi-trash-can-outline
-                    </v-icon>
+                    <v-btn-group>
+                        <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
+                               @mouseleave="task.removeBtnHovered = false">
+                            <v-icon :class="{'text-error': task.removeBtnHovered}">mdi-trash-can-outline</v-icon>
+                        </v-btn>
+                    </v-btn-group>
+
                 </template>
             </v-list-item>
         </v-list-item>
