@@ -25,9 +25,7 @@
     <!-- Edit Task-->
                         <v-btn class="bg-transparent">
                             <v-icon>mdi-pencil-outline</v-icon>
-                            <v-dialog activator="parent">
-                                <EditTaskForm></EditTaskForm>
-                            </v-dialog>
+                            <EditTaskForm :upload="upload" :task="task" :remove="removeTask"></EditTaskForm>
                         </v-btn>
 
     <!-- Remove Task-->
@@ -82,7 +80,7 @@ import EditTaskForm from "./EditTaskForm.vue";
 export default {
     components: {
         EditTaskForm,
-        TaskForm: CreateTaskForm,
+        CreateTaskForm,
     },
     data() {
         return {
@@ -134,6 +132,7 @@ export default {
                 });
             this.upload();
         }
-    }
+    },
+
 }
 </script>

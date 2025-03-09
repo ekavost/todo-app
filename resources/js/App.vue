@@ -6,9 +6,9 @@
         </v-app-bar>
 
         <v-main>
-            <v-btn class="bg-pink py-10" block rounded="0"Crear nueva tarea>
+            <v-btn class="bg-pink py-10" block rounded="0">
                 Crear nueva tarea
-                    <CreateTaskForm></CreateTaskForm>
+                <CreateTaskForm></CreateTaskForm>
             </v-btn>
 
             <TaskList></TaskList>
