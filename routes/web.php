@@ -9,3 +9,4 @@ Route::get('/', function () {
 Route::post('/', [TaskController::class, 'create']);
 Route::get('api/tasks', [TaskController::class, 'show']);
 Route::patch('api/tasks/{task}', [TaskController::class, 'update']);
+Route::delete('api/tasks/{task}', [TaskController::class, 'destroy']);
