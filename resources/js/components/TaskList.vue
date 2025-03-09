@@ -1,7 +1,8 @@
 <template>
+    <v-sheet class="pa-5 ma-5"
+        elevation="2">
     <h2>Tareas actuales</h2>
     <v-list>
-
 <!--Incomplete Tasks List-->
         <v-list-subheader>Tareas pendientes</v-list-subheader>
         <v-list-item
@@ -35,7 +36,7 @@
                 </template>
             </v-list-item>
         </v-list-item>
-
+<v-divider></v-divider>
 <!--Completed Tasks List-->
         <v-list-subheader>Tareas completas</v-list-subheader>
         <v-list-item
@@ -70,6 +71,7 @@
             </v-list-item>
         </v-list-item>
     </v-list>
+    </v-sheet>
 </template>
 <script>
 export default {
