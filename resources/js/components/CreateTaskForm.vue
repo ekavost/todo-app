@@ -40,7 +40,6 @@ export default {
     },
     methods: {
         createTask(isActive) {
-            console.log(this.title);
             axios.post('/', {
                 title: this.title,
                 description: this.description,

@@ -6,17 +6,16 @@
 <!--Incomplete Tasks List-->
         <v-list-subheader>Tareas pendientes</v-list-subheader>
         <v-list-item
-            v-for="task in incompletedTasks" :key="task.id"
+            v-for="task in uncompletedTasks" :key="task.id"
             @mouseover="task.hovered = true"
             @mouseleave="task.hovered = false"
             :class="{'bg-grey-lighten-4': task.hovered}">
             <v-list-item
                 :title='task.title'>
-
                 <template v-slot:append>
                     <v-btn-group>
     <!-- Mark as Completed-->
-                        <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
+                        <v-btn @click="toggleTaskCompletion(task)" class="bg-transparent"
                                @mouseover="task.markBtnHovered = true"
                                @mouseleave="task.markBtnHovered = false">
                             <v-icon :class="{'text-success': task.markBtnHovered}">mdi-check-bold</v-icon>
@@ -27,7 +26,6 @@
                             <v-icon>mdi-pencil-outline</v-icon>
                             <EditTaskForm :upload="upload" :task="task" :remove="removeTask"></EditTaskForm>
                         </v-btn>
-
     <!-- Remove Task-->
                         <v-btn @click="removeTask(task)" class="bg-transparent" @mouseover="task.removeBtnHovered = true"
                                @mouseleave="task.removeBtnHovered = false">
@@ -56,7 +54,7 @@
                 <template v-slot:append>
                     <v-btn-group>
     <!-- Mark as Incomplete-->
-                        <v-btn @click="toggleCompleteTask(task)" class="bg-transparent"
+                        <v-btn @click="toggleTaskCompletion(task)" class="bg-transparent"
                                @mouseover="task.undoBtnHovered = true"
                                @mouseleave="task.undoBtnHovered = false">
                             <v-icon :class="{'text-success': task.undoBtnHovered}">mdi-undo</v-icon>
@@ -88,33 +86,30 @@ export default {
         completedTasks() {
             return this.tasks.filter(task => task.completed === true || task.completed === 1);
         },
-        incompletedTasks() {
+        uncompletedTasks() {
             return this.tasks.filter(task => task.completed === false || task.completed === 0);
         }
     },
 
     methods: {
-        toggleCompleteTask(task) {
+        toggleTaskCompletion(task) {
             task.completed = !task.completed;
-            axios.patch(`/api/tasks/${task.id}`, task)
+            this.makeApiRequest('patch', `/api/tasks/${task.id}`, task, 'Error al completar tarea');
+        },
+        removeTask(task) {
+            this.makeApiRequest('delete', `/api/tasks/${task.id}`, null, 'Error al eliminar tarea')
+                .then(() => this.upload());
+        },
+
+        makeApiRequest(method, url, data = null, errorMessage) {
+            return axios[method](url, data)
                 .then(response => {
                     console.log(response.data);
                 })
                 .catch(error => {
-                    console.error('Error al completar tarea:', error);
+                    console.error(errorMessage, error);
                 });
-        },
-
-        removeTask(task) {
-            axios.delete(`/api/tasks/${task.id}`)
-                .then(response => {
-                    console.log(response.data);
-                })
-        .catch(error => {
-                    console.error('Error al eliminar tarea:', error);
-                });
-            this.upload();
         }
-    },
+    }
 }
 </script>

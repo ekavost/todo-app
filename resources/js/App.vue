@@ -12,7 +12,6 @@
         </v-app-bar>
 
         <v-main>
-
             <TaskList :tasks="tasks" :upload="upload"></TaskList>
         </v-main>
 
@@ -56,6 +55,5 @@ export default{
     mounted(){
         this.upload();
     },
-
 }
 </script>
