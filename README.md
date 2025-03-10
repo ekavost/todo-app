@@ -9,7 +9,8 @@ Este es un proyecto desarrollado con **Laravel 10** integrado con **Vue 3** y **
   git clone https://github.com/ekavost/todo-app.git
   cd todo-app/
   ~~~
-- Instalar Dependencias de PHP
+- Instalar Dependencias de PHP.
+  
   Utilizar composer para instalar las dependencias necesarias para Laravel:
   ~~~
   composer install
@@ -20,17 +21,20 @@ Este es un proyecto desarrollado con **Laravel 10** integrado con **Vue 3** y **
   ~~~
 ### Configuración de la base de datos.
 - Configurar el Archivo .env
+  
   Copiar el archivo de configuración de ejemplo
   ~~~
   cp .env.example .env
   ~~~
 - Crear el archivo de la base de datos SQLite
+  
   En la carpeta database del proyecto crear un archivo vacío database.sqlite
   ~~~
   cd database/
   touch database.sqlite
   ~~~
 - Generar la clave APP_KEY
+  
   Laravel necesita una clave única para operaciones de encriptación. Si esta clave está vacía, aparecerá el      error *"No application encryption key has been specified"*.
   ~~~
   cd ..
