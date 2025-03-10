@@ -3,13 +3,16 @@
         <v-app-bar
             title="Gestión de tareas"
             class="text-center">
+            <template v-slot:extension>
+                <v-btn class="bg-deep-orange-darken-2 py-7" block rounded="0">
+                    Crear nueva tarea
+                    <CreateTaskForm :upload="upload" :tasks="tasks"></CreateTaskForm>
+                </v-btn>
+            </template>
         </v-app-bar>
 
         <v-main>
-            <v-btn class="bg-pink py-10" block rounded="0">
-                Crear nueva tarea
-                <CreateTaskForm :upload="upload" :tasks="tasks"></CreateTaskForm>
-            </v-btn>
+
             <TaskList :tasks="tasks" :upload="upload"></TaskList>
         </v-main>
 
