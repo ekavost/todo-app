@@ -22,7 +22,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <!-- Button to cancel task creation -->
-                    <v-btn @click="isActive.value = false">Cancelar</v-btn>
+                    <v-btn @click="cleanInputFields(isActive)">Cancelar</v-btn>
                     <!-- Button to save a new task -->
                     <v-btn @click="createTask(isActive)">Guardar</v-btn>
                 </v-card-actions>
@@ -56,14 +56,17 @@ export default {
                 completed: this.completed,
             }).then(() => {
                 this.upload(); // Refresca la lista de tareas
-                this.title = ''; // Reinicia el campo "Title"
-                this.description = ''; // Reinicia el campo "Descripción"
-                this.completed = false; // Reinicia el campo "completed"
-                isActive.value = false; // Cierra el diálogo
+                this.cleanInputFields(isActive);
             }).catch(error => {
                 console.error("Error al crear la tarea:", error); // Manejo de errores
             });
         },
+        cleanInputFields(isActive){
+            isActive.value = false; // Cierra el diálogo
+            this.title = ''; // Reinicia el campo "Title"
+            this.description = ''; // Reinicia el campo "Descripción"
+            this.completed = false; // Reinicia el campo "completed"
+        }
     },
 };
 </script>
