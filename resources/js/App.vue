@@ -1,8 +1,11 @@
 <template>
     <v-app>
-        <v-app-bar
-            title="Gestión de tareas"
-            class="text-center">
+        <v-app-bar title="Gestión de tareas">
+            <div class="mr-5 font-italic">
+                <v-icon class="mr-2">mdi-format-quote-open</v-icon>
+                {{ quote || 'Cargando frase...' }}
+            </div>
+
             <template v-slot:extension>
                 <v-btn class="bg-deep-orange-darken-1 py-7" block rounded="0">
                     Crear nueva tarea
@@ -39,6 +42,7 @@ export default{
     data(){
         return {
             tasks:[],
+            quote: 'Cargando frase...',
         }
     },
     methods:{
@@ -51,9 +55,23 @@ export default{
                     console.error('Error al obtener tareas:', error);
                 });
         },
+
+        fetchRandomQuote() {
+            axios
+                .get('https://v2.jokeapi.dev/joke/Any?type=single')
+                .then(response => {
+                    console.log('Respuesta de la API:', response.data);
+                    this.quote = response.data.joke;
+                })
+                .catch(error => {
+                    console.error('Error al obtener la frase:', error);
+                    this.quote = 'No se pudo cargar la frase. Inténtalo más tarde.';
+                });
+        }
     },
     mounted(){
         this.upload();
+        this.fetchRandomQuote();
     },
 }
 </script>
