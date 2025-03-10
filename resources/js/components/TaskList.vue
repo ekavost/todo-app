@@ -73,44 +73,52 @@
         </v-list>
     </v-sheet>
 </template>
+
 <script>
 import EditTaskForm from "./EditTaskForm.vue";
+
 export default {
     components: {
-        EditTaskForm,
+        EditTaskForm, // Component for editing tasks
     },
-   props: {
-        tasks: Array,
-       upload: Function,
-   },
+    props: {
+        tasks: Array, // List of tasks passed as a prop
+        upload: Function, // Function to refresh or reload tasks
+    },
     computed: {
+        // Returns the list of completed tasks
         completedTasks() {
             return this.tasks.filter(task => task.completed === true || task.completed === 1);
         },
+        // Returns the list of uncompleted tasks
         uncompletedTasks() {
             return this.tasks.filter(task => task.completed === false || task.completed === 0);
         }
     },
 
     methods: {
+        // Toggles the completion status of a task and updates it via an API call
         toggleTaskCompletion(task) {
-            task.completed = !task.completed;
-            this.makeApiRequest('patch', `/api/tasks/${task.id}`, task, 'Error al completar tarea');
-        },
-        removeTask(task) {
-            this.makeApiRequest('delete', `/api/tasks/${task.id}`, null, 'Error al eliminar tarea')
-                .then(() => this.upload());
+            task.completed = !task.completed; // Change the task's completion status
+            this.makeApiRequest('patch', `/api/tasks/${task.id}`, task, 'Error al completar tarea'); // API call to update task
         },
 
+        // Removes a task from the list by making a DELETE request and refreshing the tasks
+        removeTask(task) {
+            this.makeApiRequest('delete', `/api/tasks/${task.id}`, null, 'Error al eliminar tarea') // API call to delete task
+                .then(() => this.upload()); // Refresh tasks after successfully deleting
+        },
+
+        // General method for making API requests
         makeApiRequest(method, url, data = null, errorMessage) {
             return axios[method](url, data)
                 .then(response => {
-                    console.log(response.data);
+                    console.log(response.data); // Log the response for debugging
                 })
                 .catch(error => {
-                    console.error(errorMessage, error);
+                    console.error(errorMessage, error); // Log error message if something goes wrong
                 });
         }
     }
-}
+};
 </script>
