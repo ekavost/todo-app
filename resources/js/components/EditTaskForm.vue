@@ -5,11 +5,12 @@
             <v-card class="w-66 mx-auto">
                 <v-card-title>Editar la tarea</v-card-title>
                 <v-card-text>
-                    <v-form>
+                    <v-form @submit.prevent="editTask(isActive)">
                         <!-- Input field for task title -->
                         <v-text-field
                             label="Title"
                             v-model="task.title"
+                            :rules="[rules.reguired]"
                         ></v-text-field>
                         <!-- Input field for task description -->
                         <v-textarea
@@ -26,7 +27,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <!-- Button to save the edited task -->
-                    <v-btn @click="isActive.value = false; editTask()">Guardar</v-btn>
+                    <v-btn @click="editTask(isActive)">Guardar</v-btn>
                     <!-- Button to remove the task -->
                     <v-btn @click="isActive.value = false; this.remove(task)">Eliminar</v-btn>
                     <!-- Button to cancel editing -->
@@ -42,15 +43,23 @@ import axios from "axios";
 
 export default {
     props: ['upload', 'task', 'remove'], // Receives props for the task, and functions for refreshing and deleting tasks
+    data(){
+        return {
+            rules: {
+                reguired: value => !!value || 'Este campo es obligatorio.',
+            },
+        }
+    },
     methods: {
         // Sends a PUT request to update the task with the new data
-        editTask() {
+        editTask(isActive) {
             axios.put(`/api/tasks/${this.task.id}`, {
                 title: this.task.title,
                 description: this.task.description,
                 completed: this.task.completed,
             }).then(response => {
                 console.log(response.data); // Log the response for debugging
+                isActive.value = false;
             });
             this.upload(); // Refresh task list after editing
         },

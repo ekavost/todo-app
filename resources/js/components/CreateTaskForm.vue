@@ -10,6 +10,7 @@
                         <v-text-field
                             label="Title"
                             v-model="title"
+                            :rules="[rules.reguired]"
                         ></v-text-field>
                         <!-- Input field for task description -->
                         <v-textarea
@@ -29,8 +30,8 @@
         </template>
     </v-dialog>
 </template>
-
 <script>
+
 export default {
     props: {
         upload: Function, // Function to refresh the task list
@@ -41,23 +42,26 @@ export default {
             title: '', // Title field for the new task
             description: '', // Description field for the new task
             completed: false, // Default completion status for the new task
+            rules: {
+                reguired: value => !!value || 'Este campo es obligatorio.',
+            },
         };
     },
     methods: {
-        // Sends a POST request to create a new task
+        // Envía una solicitud POST para crear una nueva tarea
         createTask(isActive) {
             axios.post('/', {
                 title: this.title,
                 description: this.description,
                 completed: this.completed,
             }).then(() => {
-                this.upload(); // Refresh the task list upon successful creation
-                this.title = ''; // Reset the title field
-                this.description = ''; // Reset the description field
-                this.completed = false; // Reset the completion status
-                isActive.value = false; // Close the dialog
+                this.upload(); // Refresca la lista de tareas
+                this.title = ''; // Reinicia el campo "Title"
+                this.description = ''; // Reinicia el campo "Descripción"
+                this.completed = false; // Reinicia el campo "completed"
+                isActive.value = false; // Cierra el diálogo
             }).catch(error => {
-                console.error("Error al crear la tarea:", error); // Log errors
+                console.error("Error al crear la tarea:", error); // Manejo de errores
             });
         },
     },
