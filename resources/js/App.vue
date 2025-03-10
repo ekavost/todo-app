@@ -8,12 +8,9 @@
         <v-main>
             <v-btn class="bg-pink py-10" block rounded="0">
                 Crear nueva tarea
-                <CreateTaskForm></CreateTaskForm>
+                <CreateTaskForm :upload="upload" :tasks="tasks"></CreateTaskForm>
             </v-btn>
-
-            <TaskList></TaskList>
-
-            <TaskForm v-if="showTaskForm"></TaskForm>
+            <TaskList :tasks="tasks" :upload="upload"></TaskList>
         </v-main>
 
         <v-footer class="d-flex flex-column">
@@ -29,6 +26,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import CreateTaskForm from './components/CreateTaskForm.vue';
 import TaskList from './components/TaskList.vue';
 export default{
@@ -36,5 +34,25 @@ export default{
         CreateTaskForm,
         TaskList,
     },
+    data(){
+        return {
+            tasks:[],
+        }
+    },
+    methods:{
+        upload(){
+            axios.get('/api/tasks')
+                .then(response => {
+                    this.tasks = response.data;
+                })
+                .catch(error => {
+                    console.error('Error al obtener tareas:', error);
+                });
+        },
+    },
+    mounted(){
+        this.upload();
+    },
+
 }
 </script>

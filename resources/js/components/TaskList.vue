@@ -75,18 +75,15 @@
     </v-sheet>
 </template>
 <script>
-import CreateTaskForm from './CreateTaskForm.vue';
 import EditTaskForm from "./EditTaskForm.vue";
 export default {
     components: {
         EditTaskForm,
-        CreateTaskForm,
     },
-    data() {
-        return {
-            tasks: [],
-        }
-    },
+   props: {
+        tasks: Array,
+       upload: Function,
+   },
     computed: {
         completedTasks() {
             return this.tasks.filter(task => task.completed === true || task.completed === 1);
@@ -96,20 +93,7 @@ export default {
         }
     },
 
-    mounted() {
-        this.upload();
-    },
-
     methods: {
-        upload(){
-            axios.get('/api/tasks')
-                .then(response => {
-                    this.tasks = response.data;
-                })
-                .catch(error => {
-                    console.error('Error al obtener tareas:', error);
-                });
-        },
         toggleCompleteTask(task) {
             task.completed = !task.completed;
             axios.patch(`/api/tasks/${task.id}`, task)
@@ -125,7 +109,6 @@ export default {
             axios.delete(`/api/tasks/${task.id}`)
                 .then(response => {
                     console.log(response.data);
-
                 })
         .catch(error => {
                     console.error('Error al eliminar tarea:', error);
@@ -133,6 +116,5 @@ export default {
             this.upload();
         }
     },
-
 }
 </script>

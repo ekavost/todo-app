@@ -2,9 +2,9 @@
     <v-dialog activator="parent">
         <template v-slot:default="{ isActive }">
             <v-card class="w-66 mx-auto">
-                <v-card-title>Crear Nueva tarea</v-card-title>
+                <v-card-title>Crear nueva tarea</v-card-title>
                 <v-card-text>
-                    <v-form>
+                    <v-form @submit.prevent="createTask( isActive)">
                         <v-text-field
                             label="Title"
                             v-model="title"
@@ -18,7 +18,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn @click="isActive.value = false">Cancelar</v-btn>
-                    <v-btn @click="isActive.value = false; createTask()">Guardar</v-btn>
+                    <v-btn @click="createTask(isActive)">Guardar</v-btn>
                 </v-card-actions>
             </v-card>
         </template>
@@ -27,6 +27,10 @@
 
 <script>
 export default {
+    props: {
+        upload: Function,
+        tasks: Array,
+    },
     data() {
         return {
             title: '',
@@ -35,15 +39,22 @@ export default {
         };
     },
     methods: {
-        createTask() {
+        createTask(isActive) {
             console.log(this.title);
             axios.post('/', {
                 title: this.title,
                 description: this.description,
                 completed: this.completed,
-            }).then(response => {
-                console.log(response.data);
-            });
+            }).then(() => {
+                this.upload();
+                this.title = '';
+                this.description = '';
+                this.completed = false;
+                isActive.value = false;
+            })
+                .catch(error => {
+                    console.error("Error al crear la tarea:", error);
+                });
         },
     },
 };
